@@ -75,14 +75,15 @@ export const useCart = () => {
     //saveLocalStorage();
   }
 
-  function removeFromCart(id) {
+  // el : Guitar["id"] es para decir que el id es de tipo Guitar y se puede acceder a la propiedad id de Guitar por si esta en algun futuro se cambia el tipo de dato de Guitar, esto tambien es llamado lookup type
+  function removeFromCart(id: Guitar["id"]) {
     // const cartFilter = cart.filter((guitar) => guitar.id !== id);
     // setCart(cartFilter);
     setCart(cart.filter((guitar) => guitar.id !== id));
     // console.log("eliminando" + id);
   }
 
-  function increaseQuantity(id) {
+  function increaseQuantity(id: Guitar["id"]) {
     /* lo que hace es con el metodo map se va a iterar por todos los elementos del carito que se tienen guardandolos en updateCart
     y en el va a buscar el id el cual concuerde en el que se esta dando click, se hace una copia de lo que se tiene del items, pero la quantity se actualizara en 1, retornando dicho item con el fin de no modificar el state del item */
     const updateCart = cart.map((item) => {
@@ -102,7 +103,7 @@ export const useCart = () => {
     setCart(updateCart);
   }
 
-  function decreaseQuantity(id) {
+  function decreaseQuantity(id: Guitar["id"]) {
     const updateCart = cart.map((item) => {
       if (item.id === id && item.quantity > MIN_QUANTITY) {
         return {
