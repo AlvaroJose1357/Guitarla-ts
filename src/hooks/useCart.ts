@@ -36,7 +36,7 @@ export const useCart = () => {
   const MAX_QUANTITY = 5; // se coloca el maximo de elementos que se pueden tener en el carrito
   const MIN_QUANTITY = 1; // se coloca el minimo de elementos que se pueden tener en el carrito
   //funciones
-  function addToCart(items) {
+  function addToCart(items: Guitar) {
     // console.log("anadiendo");
     // lo que hace es buscar si el item ya existe en el carrito
     const itemsExist = cart.findIndex((guitar) => guitar.id === items.id);
@@ -55,9 +55,15 @@ export const useCart = () => {
       para eso existe el Set del respectivo estado*/
       //alert("ya existe");
     } else {
+      /*
+      este antes de setear el state es un cartItem, pero desde un inicio es un Guitar, por lo que se debe hacer es añadirle la propiedad quantity al objeto para que este se convierta en un CartItem
       items.quantity = 1;
       setCart([...cart, items]);
-      //alert("lo añadiste");
+      //alert("lo añadiste");*/
+      // se crea una variabe newItem que es un objeto que contiene todas las propiedades de items (Guitar) y se le añade la propiedad quantity con el valor de 1
+      const newItem: CartItem = { ...items, quantity: 1 };
+      // se añade el objeto newItem al carrito
+      setCart([...cart, newItem]);
     }
     // itemsExist >= 0
     //   ? // si ya existe
