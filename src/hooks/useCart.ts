@@ -2,11 +2,11 @@ import { useState, useEffect, useMemo} from "react";
 //data
 import { db } from "../data/db";
 //types
-import { Guitar } from "../types";
+import { Guitar, CartItem } from "../types";
 export const useCart = () => {
   //initial state
   // este valor inicial se coloca debido a que cada que se recargaba con localStorage el useState de cart se volvia a poner vacio el carrito debido a que el estado inicial de cart es un array vacio, por lo que se coloca una funcion que se encarga de obtener el carrito del local storage
-  const initialCart = () => {
+  const initialCart = () : CartItem[] => {
     // se obtiene el carrito del local storage
     const localStorageCart = localStorage.getItem("cart");
     // se verifica si el carrito esta vacio, si no esta vacio se retorna el carrito y con json.parse para que se convierta en un array, si esta vacio se retorna un array vacio
