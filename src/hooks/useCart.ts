@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo} from "react";
 //data
 import { db } from "../data/db";
+//types
+import { Guitar } from "../types";
 export const useCart = () => {
   //initial state
   // este valor inicial se coloca debido a que cada que se recargaba con localStorage el useState de cart se volvia a poner vacio el carrito debido a que el estado inicial de cart es un array vacio, por lo que se coloca una funcion que se encarga de obtener el carrito del local storage
@@ -11,7 +13,11 @@ export const useCart = () => {
     return localStorageCart ? JSON.parse(localStorageCart) : [];
   };
   // State
-  const [data, setData] = useState([]);
+ // al state de data se le asigna el tipo de dato Guitar[] que es un array de objetos de tipo Guitar ya que si se deja solo el state de data sin asignarle un tipo de dato, este se va a asignar como never[] que es un array de objetos que nunca se va a modificar si por ejemplo se le asignara un api
+  const [data, setData] = useState<Guitar[]>();
+  //una opcion seria hacerlo solo como data y el stado inicial seria la db 
+  //const [data] = useState(db);
+  //ya con esta sintaxis no es necesario el useEffect para cargar los datos de la base de datos en el estado data
   const [cart, setCart] = useState(initialCart);
   //Effect // Simula la carga de datos de una api o base de datos externa(En este caso la base de datos es un archivo js)
   // se utiliza para cargar los datos de la base de datos en el estado data

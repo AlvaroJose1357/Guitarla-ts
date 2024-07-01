@@ -1,4 +1,6 @@
-export const db = [
+import type { Guitar } from "../types";
+// se exporta un array de objetos de tipo Guitar[] que contiene la información de las guitarras que se encuentran en la base de datos, se le coloca un [] para indicar que es un array de objetos de tipo Guitar
+export const db: Guitar[] = [
   {
     id: 1,
     name: "Lukather",

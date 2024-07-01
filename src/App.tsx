@@ -21,7 +21,12 @@ function App() {
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
-          {data.map((guitar) => (
+          {/*si existe data se mapea la data y se crea un componente Guitar por cada elemento de la data
+            antes estaba de la siguiente manera
+            {data.map((guitar) => (
+            pero lo que ocurria es que recibia un error de que data podria ser undefined debido a que este recibe como type un array de objetos Guitar, por lo que se le coloca un ? para que si data es undefined no se ejecute el map
+          */}
+          {data?.map((guitar) => (
             <Guitar
               //se utiliza key para que no haya problema con alun elemento repetido
               key={guitar.id}

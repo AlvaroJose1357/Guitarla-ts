@@ -1,5 +1,12 @@
-export default function Guitar({ guitar, addToCart }) {
-  const { id, name, image, description, price } = guitar; // se desestructura el objeto guitar para obtener los valores de las propiedades mas limpiamente, en lugar de guitar.id, guitar.name, etc.
+import type { Guitar } from "../types"; // se importa el tipo Guitar desde el archivo db.ts
+// se crea un type GuitarProps que contiene la información de una guitarra individual y la función addToCart que se utiliza para actualizar el estado cart. Este estado representa el carrito de compras en la aplicación.
+type GuitarProps = {
+  guitar: Guitar;
+  addToCart: (items: Guitar) => void;
+}
+// se crea un componente funcional Guitar que recibe como props un objeto guitar y una función addToCart que se utiliza para actualizar el estado cart. y GuitarProps que es el tipo de las props que recibe el componente
+export default function Guitar({ guitar, addToCart }: GuitarProps){
+  const { name, image, description, price } = guitar; // se desestructura el objeto guitar para obtener los valores de las propiedades mas limpiamente, en lugar de guitar.id, guitar.name, etc.
 
   return (
     <div className="col-md-6 col-lg-4 my-4 row align-items-center">
