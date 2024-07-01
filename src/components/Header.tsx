@@ -1,4 +1,14 @@
-export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal}) {
+import { CartItem, Guitar } from "../types";
+type HeaderProps = {
+  cart: CartItem[];
+  removeFromCart: (id: Guitar["id"]) => void
+  increaseQuantity: (id: Guitar["id"]) => void
+  decreaseQuantity: (id: Guitar["id"]) => void
+  clearCart: () => void
+  isEmpty: boolean
+  cartTotal: number
+};
+export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal}: HeaderProps) {
   /* con lo siguiente hacemos que aparece el carrito en el header, pero no se puede hacer uso de las funciones de useCart, debido a que se esta tomando este carrito como uno nuevo, lo cual nos deja la pagina sin funcionalidad
   const { isEmpty, cartTotal } = useCart();
   la solucion a esto es pasarlo como props y hacer uso de las funciones que se necesiten
