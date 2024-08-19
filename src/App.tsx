@@ -1,4 +1,3 @@
-import "./App.css";
 import { useEffect, useReducer } from "react";
 import Guitar from "./components/Guitar";
 import Header from "./components/Header";
