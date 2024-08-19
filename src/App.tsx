@@ -1,23 +1,31 @@
 import "./App.css";
+import { useEffect, useReducer } from "react";
 import Guitar from "./components/Guitar";
 import Header from "./components/Header";
-import { useCart } from "./hooks/useCart";
-
+//import { useCart } from "./hooks/useCart";
+import { cartReducer, initialState } from "./reducers/cart-reducer";
 
 function App() {
-  const { data, cart, addToCart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal } = useCart();
-  
+  // custom hook useCart
+  /*const {
+    data,
+    cart,
+    addToCart,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+    clearCart,
+    isEmpty,
+    cartTotal,
+  } = useCart();*/
+  // Reducer
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
   return (
     <>
-      <Header
-        cart={cart}
-        removeFromCart={removeFromCart}
-        increaseQuantity={increaseQuantity}
-        decreaseQuantity={decreaseQuantity}
-        clearCart={clearCart}
-        isEmpty={isEmpty}
-        cartTotal={cartTotal}
-      />
+      <Header cart={state.cart} dispatch={dispatch} />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
@@ -26,7 +34,7 @@ function App() {
             {data.map((guitar) => (
             pero lo que ocurria es que recibia un error de que data podria ser undefined debido a que este recibe como type un array de objetos Guitar, por lo que se le coloca un ? para que si data es undefined no se ejecute el map
           */}
-          {data?.map((guitar) => (
+          {state.data.map((guitar) => (
             <Guitar
               //se utiliza key para que no haya problema con alun elemento repetido
               key={guitar.id}
@@ -35,7 +43,7 @@ function App() {
               // // función que se utiliza para actualizar el estado cart. Este estado representa el carrito de compras en la aplicación.
               // ya no se utiliza debido a que se actualizo hacia un custom hook useCart
               // setCart={setCart}
-              addToCart={addToCart}
+              dispatch={dispatch}
             />
           ))}
         </div>

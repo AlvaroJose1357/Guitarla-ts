@@ -1,19 +1,22 @@
-import { CartItem, Guitar } from "../types";
+import { useMemo } from "react";
+import { CartItem } from "../types";
+import { CartAction } from "../reducers/cart-reducer";
 type HeaderProps = {
   cart: CartItem[];
-  removeFromCart: (id: Guitar["id"]) => void
-  increaseQuantity: (id: Guitar["id"]) => void
-  decreaseQuantity: (id: Guitar["id"]) => void
-  clearCart: () => void
-  isEmpty: boolean
-  cartTotal: number
+  dispatch: React.Dispatch<CartAction>;
 };
-export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal}: HeaderProps) {
+export default function Header({ cart, dispatch }: HeaderProps) {
   /* con lo siguiente hacemos que aparece el carrito en el header, pero no se puede hacer uso de las funciones de useCart, debido a que se esta tomando este carrito como uno nuevo, lo cual nos deja la pagina sin funcionalidad
   const { isEmpty, cartTotal } = useCart();
   la solucion a esto es pasarlo como props y hacer uso de las funciones que se necesiten
   */
 
+  const isEmpty = useMemo(() => cart.length === 0, [cart]);
+  const cartTotal = useMemo(
+    () =>
+      cart.reduce((total, items) => total + items.quantity * items.price, 0),
+    [cart]
+  );
   return (
     <header className="py-5 header">
       <div className="container-xl">
@@ -68,7 +71,10 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
                               <td className="flex align-items-start gap-4">
                                 <button
                                   onClick={() => {
-                                    decreaseQuantity(guitar.id);
+                                    dispatch({
+                                      type: "decrease-quantity",
+                                      payload: { id: guitar.id },
+                                    });
                                   }}
                                   type="button"
                                   className="btn btn-dark"
@@ -78,7 +84,10 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
                                 {guitar.quantity}
                                 <button
                                   onClick={() => {
-                                    increaseQuantity(guitar.id);
+                                    dispatch({
+                                      type: "increase-quantity",
+                                      payload: { id: guitar.id },
+                                    });
                                   }}
                                   type="button"
                                   className="btn btn-dark"
@@ -89,7 +98,10 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
                               <td>
                                 <button
                                   onClick={() => {
-                                    removeFromCart(guitar.id);
+                                    dispatch({
+                                      type: "remove-from-cart",
+                                      payload: { id: guitar.id },
+                                    });
                                   }}
                                   className="btn btn-danger"
                                   type="button"
@@ -106,9 +118,12 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
                         <span className="fw-bold">${cartTotal}</span>
                       </p>
                       <button
-                        onClick={clearCart}
-                        type="button" 
-                        className="btn btn-dark w-100 mt-3 p-2">
+                        onClick={() => {
+                          dispatch({ type: "clear-cart" });
+                        }}
+                        type="button"
+                        className="btn btn-dark w-100 mt-3 p-2"
+                      >
                         Vaciar Carrito
                       </button>
                     </>
