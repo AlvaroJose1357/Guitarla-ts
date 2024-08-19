@@ -10,7 +10,7 @@ export default function Guitar({ guitar, dispatch }: GuitarProps) {
   const { name, image, description, price } = guitar; // se desestructura el objeto guitar para obtener los valores de las propiedades mas limpiamente, en lugar de guitar.id, guitar.name, etc.
 
   return (
-    <div className="col-md-6 col-lg-4 my-4 row align-items-center">
+    <div className="col-md-6 col-lg-4 my-4 row align-items-center text-center">
       <div className="col-4">
         <img
           className="img-fluid"
