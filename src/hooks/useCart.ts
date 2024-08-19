@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo} from "react";
+import { useState, useEffect, useMemo } from "react";
 //data
 import { db } from "../data/db";
 //types
@@ -6,16 +6,16 @@ import { Guitar, CartItem } from "../types";
 export const useCart = () => {
   //initial state
   // este valor inicial se coloca debido a que cada que se recargaba con localStorage el useState de cart se volvia a poner vacio el carrito debido a que el estado inicial de cart es un array vacio, por lo que se coloca una funcion que se encarga de obtener el carrito del local storage
-  const initialCart = () : CartItem[] => {
+  const initialCart = (): CartItem[] => {
     // se obtiene el carrito del local storage
     const localStorageCart = localStorage.getItem("cart");
     // se verifica si el carrito esta vacio, si no esta vacio se retorna el carrito y con json.parse para que se convierta en un array, si esta vacio se retorna un array vacio
     return localStorageCart ? JSON.parse(localStorageCart) : [];
   };
   // State
- // al state de data se le asigna el tipo de dato Guitar[] que es un array de objetos de tipo Guitar ya que si se deja solo el state de data sin asignarle un tipo de dato, este se va a asignar como never[] que es un array de objetos que nunca se va a modificar si por ejemplo se le asignara un api
+  // al state de data se le asigna el tipo de dato Guitar[] que es un array de objetos de tipo Guitar ya que si se deja solo el state de data sin asignarle un tipo de dato, este se va a asignar como never[] que es un array de objetos que nunca se va a modificar si por ejemplo se le asignara un api
   const [data, setData] = useState<Guitar[]>();
-  //una opcion seria hacerlo solo como data y el stado inicial seria la db 
+  //una opcion seria hacerlo solo como data y el stado inicial seria la db
   //const [data] = useState(db);
   //ya con esta sintaxis no es necesario el useEffect para cargar los datos de la base de datos en el estado data
   const [cart, setCart] = useState(initialCart);
@@ -43,7 +43,7 @@ export const useCart = () => {
     // Revisamos si el item existe
     if (itemsExist >= 0) {
       // Revisamos si la cantidad de items es mayor o igual a 5
-      if (cart[itemsExist].quantity >= MAX_QUANTITY) return
+      if (cart[itemsExist].quantity >= MAX_QUANTITY) return;
       /*se pudo haber hecho asi:
       cart[itemsExist].quantity++; ❌ pero no se debe debido a que esto muta el objecto original y no se debe hacer
       por lo que se hace de la siguiente manera:
@@ -90,11 +90,11 @@ export const useCart = () => {
       //se coloca el max_quantity para que no se pueda pasar de 5 elementos, este se coloca en const para tener un mejor control del codigo, mejorando la legibilidad, teniendo un codigo mas limpio
       if (item.id === id && item.quantity < MAX_QUANTITY) {
         return {
-          ...item,/*
+          ...item /*
           item.quantity += 1,
           item.quantity = item.quantity + 1, ❌ no se debe hacer debido a que esto muta el objecto original y no se debe hacer
           item.quantity ++ ❌ no se debe hacer debido a que esto muta el objecto original y no se debe hacer  
-          */
+          */,
           quantity: item.quantity + 1,
         };
       }
@@ -108,7 +108,7 @@ export const useCart = () => {
       if (item.id === id && item.quantity > MIN_QUANTITY) {
         return {
           ...item,
-          quantity: item.quantity - 1
+          quantity: item.quantity - 1,
         };
       }
       return item;
@@ -126,7 +126,7 @@ export const useCart = () => {
   //   // "cart" es la key que se le asigna al objeto que se va a guardar en el local storage
   //   localStorage.setItem("cart", JSON.stringify(cart));
   // }
-  
+
   // -----------------las funciones que le dan funcionalidad al carrito de compras en el header-----------------
   //Se crea una función isEmpty que retorna true si el carrito esta vacio y false si no lo esta
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
@@ -146,7 +146,7 @@ export const useCart = () => {
       cart.reduce((total, items) => total + items.quantity * items.price, 0),
     [cart]
   );
-  
+
   return {
     // se retorna un objeto con las propiedades que se van a utilizar en el componente
     // se retorna el estado data, cart
@@ -163,5 +163,3 @@ export const useCart = () => {
     cartTotal,
   };
 };
-
-
